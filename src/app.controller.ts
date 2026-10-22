@@ -1,10 +1,13 @@
 import { Controller, Get } from '@nestjs/common';
 import { AppService } from './app.service.js';
+import { Throttle } from '@nestjs/throttler';
 
 @Controller()
 export class AppController {
   constructor(private readonly appService: AppService) {}
 
+
+  @Throttle({default: {limit: 3, ttl: 60000}})
   @Get()
   getHello(): string {
     return this.appService.getHello();
